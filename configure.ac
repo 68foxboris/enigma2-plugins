@@ -290,12 +290,12 @@ netcaster/src/bin/Makefile
 netcaster/src/bin/interface/Makefile
 netcaster/src/etc/Makefile
 
-networkbrowser/Makefile
-networkbrowser/meta/Makefile
-networkbrowser/po/Makefile
-networkbrowser/src/Makefile
-networkbrowser/src/icons/Makefile
-networkbrowser/src/lib/Makefile
+networkbrowserpli/Makefile
+networkbrowserpli/meta/Makefile
+networkbrowserpli/po/Makefile
+networkbrowserpli/src/Makefile
+networkbrowserpli/src/icons/Makefile
+networkbrowserpli/src/lib/Makefile
 
 ncidclient/Makefile
 ncidclient/meta/Makefile

@@ -47,6 +47,7 @@ SUBDIRS = \
 	multirc \
 	ncidclient \
 	netcaster \
+	networkbrowser \
 	networkbrowserpli \
 	ofdb \
 	orfat \

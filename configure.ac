@@ -33,6 +33,83 @@ if test "$with_po" = "yes"; then
 fi
 AM_CONDITIONAL(UPDATE_PO, test "$with_po" = "yes")
 
+AC_ARG_WITH(boxtype,
+	[  --with-boxtype=NAME box type [[none,dm7025,dm800...]]],
+	[BOXTYPE="$withval"],[BOXTYPE="dm800"])
+AC_SUBST(BOXTYPE)
+AC_DEFINE_UNQUOTED(BOXTYPE,"$BOXTYPE",[box type])
+
+AM_CONDITIONAL(DREAMBOX, test `echo "$BOXTYPE" | cut -b 1-2` == "dm")
+AM_CONDITIONAL(VUPLUS, test `echo "$BOXTYPE" | cut -b 1-2` == "vu")
+AM_CONDITIONAL(XTREND, test `echo "$BOXTYPE" | cut -b 1-2` == "et")
+AM_CONDITIONAL(GIGABLUE, test `echo "$BOXTYPE" | cut -b 1-2` == "gb")
+
+AM_CONDITIONAL(DM500HD, test "$BOXTYPE" == "dm500hd")
+AM_CONDITIONAL(DM500HDV2, test "$BOXTYPE" == "dm500hdv2")
+AM_CONDITIONAL(DM800, test "$BOXTYPE" == "dm800")
+AM_CONDITIONAL(DM800SE, test "$BOXTYPE" == "dm800se")
+AM_CONDITIONAL(DM800SEV2, test "$BOXTYPE" == "dm800sev2")
+AM_CONDITIONAL(DM7020HD, test "$BOXTYPE" == "dm7020hd")
+AM_CONDITIONAL(DM7020HDV2, test "$BOXTYPE" == "dm7020hdv2")
+AM_CONDITIONAL(DM8000, test "$BOXTYPE" == "dm8000")
+AM_CONDITIONAL(E3HD, test "$BOXTYPE" == "e3hd")
+AM_CONDITIONAL(ET1x000, test "$BOXTYPE" == "et1x000")
+AM_CONDITIONAL(FORMULER1, test "$BOXTYPE" == formuler1)
+AM_CONDITIONAL(FORMULER3, test "$BOXTYPE" == formuler3)
+AM_CONDITIONAL(FORMULER4, test "$BOXTYPE" == formuler4)
+AM_CONDITIONAL(FORMULER1TC, test "$BOXTYPE" == formuler1tc)
+AM_CONDITIONAL(FORMULER3IP, test "$BOXTYPE" == formuler3ip)
+AM_CONDITIONAL(FORMULER4IP, test "$BOXTYPE" == formuler4ip)
+AM_CONDITIONAL(FORMULER4TURBO, test "$BOXTYPE" == formuler4turbo)
+AM_CONDITIONAL(HD51, test "$BOXTYPE" == "hd51")
+AM_CONDITIONAL(HD60, test "$BOXTYPE" == "hd60")
+AM_CONDITIONAL(HD61, test "$BOXTYPE" == "hd61")
+AM_CONDITIONAL(HD66SE, test "$BOXTYPE" == "hd66se")
+AM_CONDITIONAL(PULSE4K, test "$BOXTYPE" == "pulse4k")
+AM_CONDITIONAL(PULSE4KMINI, test "$BOXTYPE" == "pulse4kmini")
+AM_CONDITIONAL(VUUNO, test "$BOXTYPE" == vuuno)
+AM_CONDITIONAL(VUULTIMO, test "$BOXTYPE" == vuultimo)
+AM_CONDITIONAL(VUSOLO, test "$BOXTYPE" == vusolo)
+AM_CONDITIONAL(VUSOLOSE, test "$BOXTYPE" == vusolose)
+AM_CONDITIONAL(VUDUO, test "$BOXTYPE" == vuduo)
+AM_CONDITIONAL(VUSOLO2, test "$BOXTYPE" == vusolo2)
+AM_CONDITIONAL(VUSOLO4K, test "$BOXTYPE" == vusolo4k)
+AM_CONDITIONAL(VUUNO4K, test "$BOXTYPE" == vuuno4k)
+AM_CONDITIONAL(VUUNO4KSE, test "$BOXTYPE" == vuuno4kse)
+AM_CONDITIONAL(VUULTIMO4K, test "$BOXTYPE" == vuultimo4k)
+AM_CONDITIONAL(VUZERO4K, test "$BOXTYPE" == vuzero4k)
+AM_CONDITIONAL(VUDUO2, test "$BOXTYPE" == vuduo2)
+AM_CONDITIONAL(VUDUO4K, test "$BOXTYPE" == vuduo4k)
+AM_CONDITIONAL(VUDUO4KSE, test "$BOXTYPE" == vuduo4kse)
+AM_CONDITIONAL(VUZERO, test "$BOXTYPE" == vuzero)
+AM_CONDITIONAL(SF8008, test "$BOXTYPE" == "sf8008")
+AM_CONDITIONAL(SF8008M, test "$BOXTYPE" == "sf8008m")
+AM_CONDITIONAL(SF8008OPT, test "$BOXTYPE" == "sf8008opt")
+AM_CONDITIONAL(SFX6008, test "$BOXTYPE" == "sfx6008")
+AM_CONDITIONAL(H17, test `echo "$BOXTYPE"` == "h17")
+AM_CONDITIONAL(H9, test `echo "$BOXTYPE"` == "h9")
+AM_CONDITIONAL(H9COMBO, test `echo "$BOXTYPE"` == "h9combo")
+AM_CONDITIONAL(H10, test `echo "$BOXTYPE"` == "h10")
+AM_CONDITIONAL(H11, test `echo "$BOXTYPE"` == "h11")
+AM_CONDITIONAL(USTYM4KOTTPREMIUM, test "$BOXTYPE" == "ustym4kottpremium")
+AM_CONDITIONAL(USTYM4KPRO, test "$BOXTYPE" == "ustym4kpro")
+AM_CONDITIONAL(USTYM4K2OTTX, test "$BOXTYPE" == "ustym4ks2ottx")
+AM_CONDITIONAL(VIPER4K, test "$BOXTYPE" == "viper4k")
+if test `echo "$BOXTYPE" | cut -b 1-2` == "dm"; then
+	AC_DEFINE(DREAMBOX, 1, [Dreambox hardware])
+fi
+
+AM_CONDITIONAL(HAVE_TEMPFANCONTROL, test "$BOXTYPE" == dm8000 -o "$BOXTYPE" == dm800se -o "$BOXTYPE" == dm800sev2 -o "$BOXTYPE" == dm500hd -o "$BOXTYPE" == vuuno -o "$BOXTYPE" == vuultimo -o "$BOXTYPE" == vusolo2 -o "$BOXTYPE" == vuduo2 -o "$BOXTYPE" == dags1 -o "$BOXTYPE" == dags2 -o "$BOXTYPE" == dags3 -o "$BOXTYPE" == dags4 -o "$BOXTYPE" == dags5 -o "$BOXTYPE" == dags7335 -o "$BOXTYPE" == dags7362 -o "$BOXTYPE" == dags73625 -o "$BOXTYPE" == dags7356 -o "$BOXTYPE" == dags7252 -o "$BOXTYPE" == triplex)
+
+AM_CONDITIONAL(HAVE_ARMV7A, test "$BOXTYPE" == cube)
+AM_CONDITIONAL(HAVE_ARMV7AHF, test "$BOXTYPE" == hd51 -o "$BOXTYPE" == 8100s -o "$BOXTYPE" == vs1500 -o "$BOXTYPE" == vusolo4k -o "$BOXTYPE" == vuuno4k -o "$BOXTYPE" == vuuno4kse -o "$BOXTYPE" == vuzero4k -o "$BOXTYPE" == vuultimo4k -o "$BOXTYPE" == vuduo4k -o "$BOXTYPE" == vuduo4kse -o "$BOXTYPE" == dm900 -o "$BOXTYPE" == dm920 -o "$BOXTYPE" == sf4008 -o "$BOXTYPE" == dags7252 -o "$BOXTYPE" == dags72604 -o "$BOXTYPE" == gb7252 -o "$BOXTYPE" == xc7439 -o "$BOXTYPE" == h7 -o "$BOXTYPE" == h17 -o "$BOXTYPE" == h9 -o "$BOXTYPE" == h9combo -o "$BOXTYPE" == h10 -o "$BOXTYPE" == h11 -o "$BOXTYPE" == sf5008 -o "$BOXTYPE" == et1x000 -o "$BOXTYPE" == et13000 -o "$BOXTYPE" == cc1 -o "$BOXTYPE" == sf8008 -o "$BOXTYPE" == sf8008m -o "$BOXTYPE" == sf8008opt -o "$BOXTYPE" == sx988 -o "$BOXTYPE" == ip8 -o "$BOXTYPE" == gbmv200 -o "$BOXTYPE" == viper4k -o "$BOXTYPE" == hd60 -o "$BOXTYPE" == hd61 -o "$BOXTYPE" == hd66se -o "$BOXTYPE" == i55plus -o "$BOXTYPE" == ustym4kpro -o "$BOXTYPE" == ustym4kottpremium -o "$BOXTYPE" == multiboxpro -o "$BOXTYPE" == multiboxse -o "$BOXTYPE" == multibox -o "$BOXTYPE" == osmio4k -o "$BOXTYPE" == osmio4kplus -o "$BOXTYPE" == osmini4k -o "$BOXTYPE" == pulse4k -o "$BOXTYPE" == pulse4kmini -o "$BOXTYPE" == sfx6008 -o "$BOXTYPE" == sx88v2)
+AM_CONDITIONAL(HAVE_CORTEXA9HF, test "$BOXTYPE" == wetekplay)
+AM_CONDITIONAL(HAVE_AARCH64, test "$BOXTYPE" == wetekplay2 -o "$BOXTYPE" == alien5 )
+
+AM_CONDITIONAL(HAVE_LIBVUPLDEMO, test "$BOXTYPE" == vusolo2 -o "$BOXTYPE" == vusolose -o "$BOXTYPE" == vuduo2 -o "$BOXTYPE" == vuduo2 )
+AM_CONDITIONAL(HAVE_VUSTALKER, test "$BOXTYPE" == vuzero )
+AM_CONDITIONAL(HAVE_VUEXTRAS, test "$BOXTYPE" == vusolo4k -o "$BOXTYPE" == vuuno4k -o "$BOXTYPE" == vuzero4k -o "$BOXTYPE" == vuuno4kse -o "$BOXTYPE" == vuultimo4k -o "$BOXTYPE" == vuultimo4k -o "$BOXTYPE" == vuduo4k -o "$BOXTYPE" == vuduo4kse )
+
 AC_CONFIG_FILES([
 Makefile
 
@@ -97,9 +174,25 @@ bonjour/Makefile
 bonjour/meta/Makefile
 bonjour/src/Makefile
 
+BTDevicesManager/Makefile
+BTDevicesManager/src/Makefile
+BTDevicesManager/meta/Makefile
+BTDevicesManager/po/Makefile
+
 cdinfo/Makefile
 cdinfo/meta/Makefile
 cdinfo/src/Makefile
+
+DLNABrowser/Makefile
+DLNABrowser/src/Makefile
+DLNABrowser/icons/Makefile
+DLNABrowser/po/Makefile
+DLNABrowser/meta/Makefile
+
+DLNAServer/Makefile
+DLNAServer/src/Makefile
+DLNAServer/po/Makefile
+DLNAServer/meta/Makefile
 
 dreamexplorer/Makefile
 dreamexplorer/meta/Makefile
@@ -177,9 +270,24 @@ ftpbrowser/po/Makefile
 ftpbrowser/src/Makefile
 ftpbrowser/src/images/Makefile
 
+GigaBlueBluetoothSetup/Makefile
+GigaBlueBluetoothSetup/src/Makefile
+GigaBlueBluetoothSetup/meta/Makefile
+GigaBlueBluetoothSetup/po/Makefile
+
 growlee/Makefile
 growlee/meta/Makefile
 growlee/src/Makefile
+
+HbbTV/Makefile
+HbbTV/src/Makefile
+HbbTV/meta/Makefile
+HbbTV/po/Makefile
+
+WebkitHbbTV/Makefile
+WebkitHbbTV/src/Makefile
+WebkitHbbTV/bin/Makefile
+WebkitHbbTV/po/Makefile
 
 httpproxy/Makefile
 httpproxy/meta/Makefile
@@ -199,6 +307,9 @@ kiddytimer/src/Makefile
 letterbox/Makefile
 letterbox/src/Makefile
 letterbox/meta/Makefile
+
+libvupldemo/Makefile
+libvupldemo/src/Makefile
 
 logomanager/Makefile
 logomanager/meta/Makefile
@@ -427,14 +538,54 @@ vfdcontrol/meta/Makefile
 vfdcontrol/po/Makefile
 vfdcontrol/src/Makefile
 
+VuBluetoothSetup/Makefile
+VuBluetoothSetup/src/Makefile
+VuBluetoothSetup/src/vuduo4k/Makefile
+VuBluetoothSetup/src/vuduo4kse/Makefile
+VuBluetoothSetup/src/vusolo4k/Makefile
+VuBluetoothSetup/src/vuultimo4k/Makefile
+VuBluetoothSetup/src/vuuno4k/Makefile
+VuBluetoothSetup/src/vuuno4kse/Makefile
+VuBluetoothSetup/src/vuzero4k/Makefile
+VuBluetoothSetup/meta/Makefile
+VuBluetoothSetup/po/Makefile
+
+VuStalker/Makefile
+VuStalker/src/Makefile
+VuStalker/src/vuduo4k/Makefile
+VuStalker/src/vuduo4kse/Makefile
+VuStalker/src/vusolo4k/Makefile
+VuStalker/src/vuultimo4k/Makefile
+VuStalker/src/vuuno4k/Makefile
+VuStalker/src/vuuno4kse/Makefile
+VuStalker/src/vuzero4k/Makefile
+VuStalker/src/vuzero/Makefile
+VuStalker/meta/Makefile
+VuStalker/po/Makefile
+
+VuChromium/Makefile
+VuChromium/src/Makefile
+VuChromium/meta/Makefile
+VuChromium/po/Makefile
+
 webcamviewer/Makefile
 webcamviewer/meta/Makefile
 webcamviewer/src/Makefile
+
+WebBrowser/Makefile
+WebBrowser/src/Makefile
+WebBrowser/meta/Makefile
+WebBrowser/keymap/Makefile
+WebBrowser/icons/Makefile
+WebBrowser/po/Makefile
 
 werbezapper/Makefile
 werbezapper/meta/Makefile
 werbezapper/po/Makefile
 werbezapper/src/Makefile
+
+witaispeechtotext/Makefile
+witaispeechtotext/src/Makefile
 
 zaphistorybrowser/Makefile
 zaphistorybrowser/meta/Makefile

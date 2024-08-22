@@ -12,7 +12,10 @@ SUBDIRS = \
 	babelzapper \
 	blindscan \
 	bonjour \
+	BTDevicesManager \
 	cdinfo \
+	DLNABrowser \
+	DLNAServer \
 	dreamexplorer \
 	dreamirc \
 	dreammediathek \
@@ -28,11 +31,14 @@ SUBDIRS = \
 	filebrowser \
 	fstabeditor \
 	ftpbrowser \
+	GigaBlueBluetoothSetup \
 	growlee \
+	HbbTV \
 	httpproxy \
 	imdb \
 	kiddytimer \
 	letterbox \
+	libvupldemo \
 	logomanager \
 	mediadownloader \
 	mediathekviewweb \
@@ -74,8 +80,14 @@ SUBDIRS = \
 	virtualzap \
 	vlcplayer \
 	vfdcontrol \
+	VuBluetoothSetup \
+	VuChromium \
+	VuStalker \
+	WebBrowser \
+	WebkitHbbTV \
 	webcamviewer \
 	werbezapper \
+	witaispeechtotext \
 	zapstatistic \
 	zdfmediathek
 

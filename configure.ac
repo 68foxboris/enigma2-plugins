@@ -270,11 +270,6 @@ ftpbrowser/po/Makefile
 ftpbrowser/src/Makefile
 ftpbrowser/src/images/Makefile
 
-GigaBlueBluetoothSetup/Makefile
-GigaBlueBluetoothSetup/src/Makefile
-GigaBlueBluetoothSetup/meta/Makefile
-GigaBlueBluetoothSetup/po/Makefile
-
 growlee/Makefile
 growlee/meta/Makefile
 growlee/src/Makefile

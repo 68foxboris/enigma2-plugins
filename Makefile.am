@@ -31,7 +31,6 @@ SUBDIRS = \
 	filebrowser \
 	fstabeditor \
 	ftpbrowser \
-	GigaBlueBluetoothSetup \
 	growlee \
 	HbbTV \
 	httpproxy \

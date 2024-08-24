@@ -128,6 +128,11 @@ ardmediathek/meta/Makefile
 ardmediathek/src/Makefile
 ardmediathek/src/img/Makefile
 
+AudioEffect/Makefile
+AudioEffect/src/Makefile
+AudioEffect/meta/Makefile
+AudioEffect/po/Makefile
+
 audiosync/Makefile
 audiosync/img/Makefile
 audiosync/meta/Makefile

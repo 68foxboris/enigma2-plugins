@@ -5,6 +5,7 @@ SUBDIRS = \
 	antiscrollbar \
 	ardmediathek \
 	audiosync \
+	AudioEffect \
 	automaticcleanup \
 	automaticvolumeadjustment \
 	autoresolution \
@@ -96,3 +97,19 @@ CLEANFILES = index-enigma2-plugins.xml
 
 index-enigma2-plugins.xml: $(top_srcdir)/genmetaindex.py $(top_srcdir)/*/meta/plugin_*.xml
 	$(AM_V_GEN)$(PYTHON) $^ > $@
+
+if VUPLUS
+SUBDIRS += HbbTV AudioEffect
+endif
+
+if HAVE_LIBVUPLDEMO
+SUBDIRS += libvupldemo
+endif
+
+if HAVE_VUSTALKER
+SUBDIRS += VuStalker
+endif
+
+if HAVE_VUEXTRAS
+SUBDIRS += VuChromium libvupldemo witaispeechtotext WebkitHbbTV VuBluetoothSetup VuStalker
+endif

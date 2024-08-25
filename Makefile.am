@@ -85,6 +85,9 @@ SUBDIRS = \
 	VuStalker \
 	WebBrowser \
 	WebkitHbbTV \
+	weathercomponent \
+	weathercomponenthandler \
+	weatherplugin \
 	webcamviewer \
 	werbezapper \
 	witaispeechtotext \

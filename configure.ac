@@ -568,6 +568,18 @@ VuChromium/src/Makefile
 VuChromium/meta/Makefile
 VuChromium/po/Makefile
 
+weatherplugin/Makefile
+weatherplugin/meta/Makefile
+weatherplugin/po/Makefile
+weatherplugin/src/Makefile
+weatherplugin/src/icons/Makefile
+
+weathercomponent/Makefile
+weathercomponent/src/Makefile
+
+weathercomponenthandler/Makefile
+weathercomponenthandler/src/Makefile
+
 webcamviewer/Makefile
 webcamviewer/meta/Makefile
 webcamviewer/src/Makefile

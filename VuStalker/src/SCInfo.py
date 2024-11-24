@@ -251,9 +251,9 @@ def createLink(sref, checkParentalControl, forceRestart):
 	return new_sref
 
 
-def sc_playService(ref, checkParentalControl=True, forceRestart=False):
+def sc_playService(ref, checkParentalControl=True, forceRestart=False, adjust=True):
 	new_sref = createLink(ref, checkParentalControl, forceRestart)
-	res = navigation_playservice(new_sref, checkParentalControl, forceRestart)
+	res = navigation_playservice(new_sref, checkParentalControl, forceRestart, adjust)
 	if not res:
 		cur_sref = check_available_instance.getCurrentChannel()
 		if new_sref and cur_sref and new_sref == cur_sref:

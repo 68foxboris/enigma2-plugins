@@ -113,12 +113,16 @@ def Partnerbox_SingleEntry(self, service, eventId, beginTime, duration, EventNam
 		Time = ""
 		if beginTime is not None:
 			if nowTime < beginTime:
-				Time = _("%d min") % (duration / 60)
+				Time = _("%d min") % (duration // 60)
 			else:
 				prefix = "+"
-				remaining = ((beginTime + duration) - nowTime) / 60
+				remaining = ((beginTime + duration) - nowTime) // 60
 				if remaining <= 0:
 					prefix = ""
+					count_len = len(str(remaining))
+					if count_len > 3:
+						times += count_len * 4
+						
 				Time = _("%s%d min") % (prefix, remaining)
 		res = [
 			None,
@@ -267,13 +271,13 @@ def Partnerbox_MultiEntry(self, changecount, service, eventId, begTime, duration
 				end = localtime(begTime + duration)
 				res.extend((
 					(eListboxPythonMultiContent.TYPE_TEXT, r4.x, r4.y, r4.w, r4.h, 1, RT_HALIGN_CENTER | RT_VALIGN_CENTER, "%02d.%02d - %02d.%02d" % (begin[3], begin[4], end[3], end[4])),
-					(eListboxPythonMultiContent.TYPE_TEXT, r3.x, r3.y, self.gap(self.tw), r3.h, 1, RT_HALIGN_RIGHT | RT_VALIGN_CENTER, _("%d min") % (duration / 60)),
+					(eListboxPythonMultiContent.TYPE_TEXT, r3.x, r3.y, self.gap(self.tw), r3.h, 1, RT_HALIGN_RIGHT | RT_VALIGN_CENTER, _("%d min") % (duration // 60)),
 					(eListboxPythonMultiContent.TYPE_TEXT, r3.x + self.tw, r3.y, r3.w, r3.h, 0, RT_HALIGN_LEFT, EventName)
 				))
 			else:
-				percent = (nowTime - begTime) * 100 / duration
+				percent = (nowTime - begTime) * 100 // duration
 				prefix = "+"
-				remaining = ((begTime + duration) - int(time())) / 60
+				remaining = ((begTime + duration) - int(time())) // 60
 				if remaining <= 0:
 					prefix = ""
 				res.extend((
@@ -290,7 +294,7 @@ def Partnerbox_MultiEntry(self, changecount, service, eventId, begTime, duration
 					(eListboxPythonMultiContent.TYPE_TEXT, r3.left(), r3.top(), r3.width(), r3.height(), 0, RT_HALIGN_LEFT, EventName)
 				))
 			else:
-				percent = (nowTime - begTime) * 100 / duration
+				percent = (nowTime - begTime) * 100 // duration
 				res.extend((
 					(eListboxPythonMultiContent.TYPE_PROGRESS, r2.left(), r2.top(), r2.width(), r2.height(), percent),
 					(eListboxPythonMultiContent.TYPE_TEXT, r3.left(), r3.top(), r3.width(), r3.height(), 0, RT_HALIGN_LEFT, EventName)
@@ -308,35 +312,37 @@ def getClockTypesEntry(self, service, eventId, beginTime, duration):
 		return None
 
 
-def isInTimer(self, eventid, begin, duration, service):
+def isInTimer(self, eventid, begin, duration, service, disabledTimers=False):
 	returnValue = None
-	type = 0
-	time_match = 0
 	bt = None
 	check_offset_time = not config.recording.margin_before.value and not config.recording.margin_after.value
 	end = begin + duration
 	refstr = ':'.join(service.split(':')[:11])
-	for x in self.timer.timer_list:
+	timersList = self.timer.timer_list[:]
+	for x in timersList:
+		if disabledTimers and not x.disabled:
+			continue
 		check = ':'.join(x.service_ref.ref.toString().split(':')[:11]) == refstr
 		if check:
+			time_match = type = type_offset = 0
 			timer_end = x.end
 			timer_begin = x.begin
-			type_offset = 0
-			if not x.repeated and check_offset_time:
+			timer_repeat = x.repeated
+
+			if not timer_repeat and check_offset_time:
 				if 0 < end - timer_end <= 59:
 					timer_end = end
-				elif 0 < timer_begin - begin <= 59:
+				if 0 < timer_begin - begin <= 59:
 					timer_begin = begin
 			if x.justplay:
 				type_offset = 5
-				if x.pipzap and not x.repeated:
+				if x.pipzap and not timer_repeat:
 					type_offset = 30
 				if (timer_end - x.begin) <= 1:
 					timer_end += 60
 			if x.always_zap:
 				type_offset = 10
 
-			timer_repeat = x.repeated
 			# if set 'don't stop current event but disable coming events' for repeat timer
 			running_only_curevent = x.disabled and x.isRunning() and timer_repeat
 			if running_only_curevent:
@@ -349,7 +355,7 @@ def isInTimer(self, eventid, begin, duration, service):
 					bt = localtime(begin)
 					bday = bt.tm_wday
 					begin2 = 1440 + bt.tm_hour * 60 + bt.tm_min
-					end2 = begin2 + duration / 60
+					end2 = begin2 + duration // 60
 				xbt = localtime(x.begin)
 				xet = localtime(timer_end)
 				offset_day = False
@@ -358,12 +364,12 @@ def isInTimer(self, eventid, begin, duration, service):
 					oday = bday - 1
 					if oday == -1:
 						oday = 6
-					offset_day = x.repeated & (1 << oday)
+					offset_day = timer_repeat & (1 << oday)
 				xbegin = 1440 + xbt.tm_hour * 60 + xbt.tm_min
-				xend = xbegin + ((timer_end - x.begin) / 60)
+				xend = xbegin + ((timer_end - x.begin) // 60)
 				if xend < xbegin:
 					xend += 1440
-				if x.repeated & (1 << bday) and checking_time:
+				if timer_repeat & (1 << bday) and checking_time:
 					if begin2 < xbegin <= end2:
 						if xend < end2:
 							# recording within event
@@ -471,20 +477,21 @@ def isInRemoteTimer(self, begin, duration, service):
 	end = begin + duration
 	service = getServiceRef(service)
 	service_str = ':'.join(str(service).split(':')[:11])
-	for x in partnerboxfunctions.remote_timer_list:
+	remoteTimerList = partnerboxfunctions.remote_timer_list[:]
+	for x in remoteTimerList:
 		servicereference_str = ':'.join(str(x.servicereference).split(':')[:11])
 		if servicereference_str.upper() == service_str.upper():
 			if x.repeated != 0:
 				if chktime is None:
 					chktime = localtime(begin)
 					chktimecmp = chktime.tm_wday * 1440 + chktime.tm_hour * 60 + chktime.tm_min
-					chktimecmp_end = chktimecmp + (duration / 60)
+					chktimecmp_end = chktimecmp + (duration // 60)
 				time = localtime(x.timebegin)
 				for y in range(7):
 					if x.repeated & (2 ** y):
 						timecmp = y * 1440 + time.tm_hour * 60 + time.tm_min
-						if timecmp <= chktimecmp < (timecmp + ((x.timeend - x.timebegin) / 60)):
-							time_match = ((timecmp + ((x.timeend - x.timebegin) / 60)) - chktimecmp) * 60
+						if timecmp <= chktimecmp < (timecmp + ((x.timeend - x.timebegin) // 60)):
+							time_match = ((timecmp + ((x.timeend - x.timebegin) // 60)) - chktimecmp) * 60
 						elif chktimecmp <= timecmp < chktimecmp_end:
 							time_match = (chktimecmp_end - timecmp) * 60
 			else:
@@ -508,7 +515,8 @@ def getRemoteClockPixmap(self, refstr, beginTime, duration, eventId):
 	endTime = beginTime + duration
 	refstr = getServiceRef(refstr)
 	ref_str = ':'.join(str(refstr).split(':')[:11])
-	for x in partnerboxfunctions.remote_timer_list:
+	remoteTimerList = partnerboxfunctions.remote_timer_list[:]
+	for x in remoteTimerList:
 		servicereference_str = ':'.join(str(x.servicereference).split(':')[:11])
 		if servicereference_str.upper() == ref_str.upper():
 			if x.eventId == eventId:
@@ -530,15 +538,15 @@ def getRemoteClockPixmap(self, refstr, beginTime, duration, eventId):
 
 
 def getRemoteClockZapPixmap(self, refstr, beginTime, duration, eventId):
-	type = 0
-	time_match = 0
 	justplay = 0
 	repeated = 0
 	endTime = beginTime + duration
 	ref_str = ':'.join(str(refstr).split(':')[:11])
-	for x in partnerboxfunctions.remote_timer_list:
+	remoteTimerList = partnerboxfunctions.remote_timer_list[:]
+	for x in remoteTimerList:
 		servicereference_str = ':'.join(str(x.servicereference).split(':')[:11])
 		if servicereference_str.upper() == ref_str.upper():
+			time_match = type = 0
 			justplay = x.justplay
 			repeated = x.repeated
 			beg = x.timebegin

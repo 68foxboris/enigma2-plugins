@@ -12,6 +12,7 @@ SUBDIRS = \
 	babelzapper \
 	blindscan \
 	bonjour \
+	BTDevicesManager \
 	cdinfo \
 	dreamexplorer \
 	dreamirc \

@@ -102,11 +102,6 @@ bonjour/Makefile
 bonjour/meta/Makefile
 bonjour/src/Makefile
 
-btdevicesmanager/Makefile
-btdevicesmanager/src/Makefile
-btdevicesmanager/meta/Makefile
-btdevicesmanager/po/Makefile
-
 cdinfo/Makefile
 cdinfo/meta/Makefile
 cdinfo/src/Makefile

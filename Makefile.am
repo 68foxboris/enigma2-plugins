@@ -13,7 +13,6 @@ SUBDIRS = \
 	birthdayreminder \
 	blindscan \
 	bonjour \
-	btdevicesmanager \
 	cdinfo \
 	dreamexplorer \
 	dreamirc \
